@@ -1241,7 +1241,28 @@ impl<R: Runtime> WebviewWindow<R> {
     self.webview.cursor_position()
   }
 }
+#[cfg(mobile)]
+impl<R: Runtime> WebviewWindow<R> {
+  /// Show this window.
+  pub fn show(&self) -> crate::Result<()> {
+    self.webview.window().show()
+  }
 
+  /// Hide this window.
+  pub fn hide(&self) -> crate::Result<()> {
+    self.webview.window().hide()
+  }
+
+  /// Closes this window. It emits [`crate::RunEvent::CloseRequested`] first like a user-initiated close request so you can intercept it.
+  pub fn close(&self) -> crate::Result<()> {
+    self.webview.window().close()
+  }
+
+  /// Destroys this window. Similar to [`Self::close`] but does not emit any events and force close the window instead.
+  pub fn destroy(&self) -> crate::Result<()> {
+    self.webview.window().destroy()
+  }
+}
 /// Desktop window setters and actions.
 #[cfg(desktop)]
 impl<R: Runtime> WebviewWindow<R> {
